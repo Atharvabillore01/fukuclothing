@@ -1,0 +1,323 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Fuku Clothings">
+    <meta name="keywords" content="Fuku Clothings">
+    <meta name="author" content="Fuku Clothings">
+    <link rel="icon" href="{% static 'images/favicon/1.png' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'images/favicon/1.png' %}" type="image/x-icon">
+    <title>Fuku clothings</title>
+
+    <!--Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Yellowtail&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vendors/font-awesome.css' %}">
+
+    <!--Slick slider css-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vendors/slick.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vendors/slick-theme.css' %}">
+
+    <!-- Animate icon -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vendors/animate.css' %}">
+
+    <!-- Themify icon -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vendors/themify-icons.css' %}">
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vendors/bootstrap.css' %}">
+
+    <!-- Theme css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+</head>
+
+
+<body class="theme-color-1">
+
+
+    <!-- header start -->
+    {% include "header.html" %}
+
+    <!-- header end -->
+
+    <!-- breadcrumb start -->
+    <div class="breadcrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="page-title">
+                        <h2>Check-out</h2>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <nav aria-label="breadcrumb" class="theme-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Check-out</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb End -->
+
+
+    <!-- section start -->
+    <section class="section-b-space">
+        <div class="container">
+            <div class="checkout-page">
+                <div class="checkout-form">
+                    <form action="{% url 'orders:payment' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <div class="checkout-title">
+                                    <h3>Billing Details</h3>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th style="font-size:15px">Name</th>
+                                                <td style="font-size:15px">{{ order.full_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="font-size:15px">Email</th>
+                                                <td style="font-size:15px">{{ order.email }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="font-size:15px">Phone Number</th>
+                                                <td style="font-size:15px">{{ order.phone }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="font-size:15px">Address</th>
+                                                <td style="font-size:15px">{{ order.address }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="font-size:15px">City</th>
+                                                <td style="font-size:15px">{{ order.city }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="font-size:15px">Pin code</th>
+                                                <td style="font-size:15px">{{ order.pin_code }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="font-size:15px">Country</th>
+                                                <td style="font-size:15px">{{ order.country }}</td>
+                                            </tr>
+                                            {% if order.order_note %}
+                                            <tr>
+                                                <th style="font-size:15px">Order Note</th>
+                                                <td style="font-size:15px">{{ order.order_note }}</td>
+                                            </tr>
+                                            {% endif %}
+                                        </tbody>
+                                        
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <div class="checkout-details">
+                                    <div class="order-box">
+                                        <div class="title-box">
+                                            <div>Product <span>Total</span></div>
+                                        </div>
+                                        <ul class="qty">
+                                            {% for cart_item in cart_items %}
+                                                <li>{{cart_item.product.name}} × {{cart_item.quantity}} <span>₹{{cart_item.sub_total}}</span></li>
+                                            {% endfor %}
+                                        
+                                        </ul>
+                                        <ul class="sub-total">
+                                            <li>Subtotal <span class="count">₹{{subtotal}}</span></li>
+                                            <li>Shipping & Handling <span class="count">₹{{handing}}</span></li>
+                                            <li>
+
+                                            </li>
+                                        </ul>
+                                        <ul class="total">
+                                            <li>Total <span class="count">₹{{order_total}}</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="payment-box">
+                                        <div class="upper-box">
+                                            <div class="payment-options">
+                                                <ul>
+                                                    <li>
+                                                        <div class="radio-option">
+                                                            <input type="radio" name="payment-group" id="payment-1" checked="checked">
+                                                            <label for="payment-1">Cash On Delivery<span
+                                                                    class="small-text">Please send a check to Store
+                                                                    Name, Store Street, Store Town, Store State /
+                                                                    County, Store Postcode.</span></label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="radio-option Phone Pay">
+                                                            <input type="radio" name="payment-group" id="payment-2" disabled>
+                                                            <label for="payment-2">Phone Pay<span class="image"><img
+                                                                        src="../assets/images/paypal.png"
+                                                                        alt=""></span></label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        {% comment %} <div  style="width:100%" class="submit-text">
+                                            <button href="#" class="btn btn-warning" style="background:#f4cca4;color:#1c1427; width:100% ; text-transform: capitalize;font-size:18px"><b>Place Order</b></button>
+                                            </div> {% endcomment %}
+                                            
+                                        <div class="text-end">
+                                            <button href="#" onclick="placeOrder()" class="btn-solid btn">Place Order</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- section end -->
+
+
+    <!-- footer -->
+    {% include "components/footer.html" %}
+    <!-- footer end -->
+
+
+   <!-- theme setting -->
+   {% include "components/dark-mode.html" %}
+   <!-- theme setting -->
+
+
+
+    <!-- tap to top start -->
+    <div class="tap-top">
+        <div><i class="fa fa-angle-double-up"></i></div>
+    </div>
+    <!-- tap to top end -->
+
+
+
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    
+        var amount = "{{ order_total }}";
+        var transaction_id = "{{transaction_id}}"
+        var url = "{% url 'orders:payments' %}";
+        var csrftoken = getCookie('csrftoken');
+        var orderID = "{{ order.order_number }}";
+        var payment_method = 'Cash On Delivery';
+        var redirect_url = "{% url 'orders:order_complete' %}";
+    
+        // Update the logic to handle cash on delivery payment
+        function placeOrder() {
+            // Simulate processing the cash on delivery payment
+            // You may need to update this part based on your backend logic
+            sendData();
+            function sendData() {
+                fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                        "X-CSRFToken": csrftoken,
+                    },
+                    body: JSON.stringify({
+                        orderID: orderID,
+                        payment_method: payment_method,
+                        transID: transaction_id,
+                        status: "Completed",
+                    }),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data)
+                    alert('Your order has been placed successfully!');
+                    window.location.href = redirect_url + '?order_number=' + data.order_number+'&payment_id='+data.transID;
+                });
+            }
+            
+        }
+    </script>
+    
+
+
+   <!-- latest jquery-->
+   <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+
+   <!-- fly cart ui jquery-->
+   <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+   
+   <!-- exitintent jquery-->
+   <script src="{% static 'js/jquery.exitintent.js' %}"></script>
+   <script src="{% static 'js/exit.js' %}"></script>
+   
+   <!-- slick js-->
+   <script src="{% static 'js/slick.js' %}"></script>
+   
+   <!-- menu js-->
+   <script src="{% static 'js/menu.js' %}"></script>
+   
+   <!-- lazyload js-->
+   <script src="{% static 'js/lazysizes.min.js' %}"></script>
+   
+   <!-- Bootstrap js-->
+   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+   
+   <!-- Bootstrap Notification js-->
+   <script src="{% static 'js/bootstrap-notify.min.js' %}"></script>
+   
+   <!-- Fly cart js-->
+   <script src="{% static 'js/fly-cart.js' %}"></script>
+   
+   <!-- Theme js-->
+   <script src="{% static 'js/theme-setting.js' %}"></script>
+   <script src="{% static 'js/script.js' %}"></script>
+   
+   <script>
+       $(window).on('load', function () {
+           setTimeout(function () {
+               $('#exampleModal').modal('show');
+           }, 2500);
+       });
+   
+       function openSearch() {
+           document.getElementById("search-overlay").style.display = "block";
+       }
+   
+       function closeSearch() {
+           document.getElementById("search-overlay").style.display = "none";
+       }
+   </script>
+   
+   </body>
+   
+   </html>
+   
