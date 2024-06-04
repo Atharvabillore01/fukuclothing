@@ -12,7 +12,7 @@ def _cart_id(request):
     if not cart :
         cart = request.session.create()
     return cart
-
+#s
 
 def add_cart(request, product_id):
     current_user = request.user
